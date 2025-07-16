@@ -828,7 +828,7 @@ const VideoPlayer: FC = () => {
                   <Box sx={{ width: '100%', mb: { xs: 2, md: 0 } }}>
                     <PayPalScriptProvider 
                       options={{
-                        clientId: "Ab-lHCCw1pyFOk0AyDtbXCIfWDKPaisDs3OZeZ5orunvq0OL-AxPC2n_Rpyy4Ux0L5Z2JWNy5Z8yjizX",
+                        clientId: paypalClientId,
                         currency: "USD",
                         intent: "capture",
                         disableFunding: "credit",

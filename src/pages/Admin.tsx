@@ -59,7 +59,6 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Tooltip from '@mui/material/Tooltip';
 import React from 'react';
-import SecurityIcon from '@mui/icons-material/Security';
 
 // Tab panel component
 interface TabPanelProps {
@@ -1475,7 +1474,6 @@ const Admin: FC = () => {
               </Alert>
             )}
 
-            {/* Site Configuration Section */}
             <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
               {editingConfig ? (
                 <Box component="form">
@@ -1868,152 +1866,6 @@ const Admin: FC = () => {
                 </Box>
               )}
             </Paper>
-
-            {/* New User Management Section */}
-            <Box sx={{ mt: 6, mb: 4 }}>
-              <Grid container spacing={2} alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
-                <Grid item>
-                  <Typography variant="h5" component="h2" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <GroupIcon /> User Management
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={newUser ? <CancelIcon /> : <AddIcon />}
-                    onClick={() => {
-                      if (newUser) {
-                        setNewUser(false);
-                        setUserName('');
-                        setUserEmail('');
-                        setUserPassword('');
-                        setEditingUser(null);
-                      } else {
-                        setNewUser(true);
-                      }
-                    }}
-                  >
-                    {newUser ? 'Cancel' : 'Add Admin User'}
-                  </Button>
-                </Grid>
-              </Grid>
-
-              {/* User form for creating/editing admin users */}
-              <Collapse in={newUser}>
-                <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
-                  <Typography variant="h6" gutterBottom>
-                    {editingUser ? 'Edit Admin User' : 'Create Admin User'}
-                  </Typography>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
-                      <TextField
-                        fullWidth
-                        label="Email"
-                        type="email"
-                        value={userEmail}
-                        onChange={(e) => setUserEmail(e.target.value)}
-                        required
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <TextField
-                        fullWidth
-                        label="Name"
-                        value={userName}
-                        onChange={(e) => setUserName(e.target.value)}
-                        required
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label={editingUser ? "New Password (leave empty to keep current)" : "Password"}
-                        type="password"
-                        value={userPassword}
-                        onChange={(e) => setUserPassword(e.target.value)}
-                        required={!editingUser}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleSaveUser}
-                        disabled={loading || (!userEmail) || (!userName) || (!userPassword && !editingUser)}
-                        startIcon={loading ? <CircularProgress size={24} color="inherit" /> : <SaveIcon />}
-                      >
-                        {loading ? 'Saving...' : editingUser ? 'Update User' : 'Create User'}
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Paper>
-              </Collapse>
-
-              {/* User List */}
-              <TableContainer component={Paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Email</TableCell>
-                      <TableCell>Name</TableCell>
-                      <TableCell>Created At</TableCell>
-                      <TableCell>Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {users.length === 0 ? (
-                      <TableRow>
-                        <TableCell colSpan={4} align="center">No users found</TableCell>
-                      </TableRow>
-                    ) : (
-                      users.map((user) => (
-                        <TableRow key={user.$id}>
-                          <TableCell>{user.email}</TableCell>
-                          <TableCell>{user.name}</TableCell>
-                          <TableCell>{new Date(user.created_at).toLocaleDateString()}</TableCell>
-                          <TableCell>
-                            <Tooltip title="Edit User">
-                              <IconButton
-                                color="primary"
-                                onClick={() => handleEditUser(user)}
-                                size="small"
-                              >
-                                <EditIcon fontSize="small" />
-                              </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Reset Password">
-                              <IconButton
-                                color="secondary"
-                                onClick={() => {
-                                  setUserEmail(user.email);
-                                  setUserName(user.name);
-                                  setUserPassword('');
-                                  setEditingUser(user.$id);
-                                  setNewUser(true);
-                                }}
-                                size="small"
-                              >
-                                <SecurityIcon fontSize="small" />
-                              </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Delete User">
-                              <IconButton
-                                color="error"
-                                onClick={() => openDeleteDialog('user', user.$id)}
-                                size="small"
-                              >
-                                <DeleteIcon fontSize="small" />
-                              </IconButton>
-                            </Tooltip>
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Box>
           </Box>
         </TabPanel>
       </Paper>
